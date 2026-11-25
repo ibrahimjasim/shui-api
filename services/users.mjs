@@ -1,16 +1,16 @@
 import {GetCommand, PutCommand} from "@aws-sdk/lib-dynamodb";
 import { db} from './db.mjs';
 import { hashPassword } from '../utils/bcrybt.mjs';
-import { HttpError } from '../responses/errors.mjs';
+import { HttpError } from '../responses/index.mjs';
 
 const TABLE_NAME = process.env.USERS_TABLE;
 
 export const getUser = async (username) => {
-  const { Item } = await db.send(new GetCommand({ TableName: TABLE, Key: { username } }));
+  const { Item } = await db.send(new GetCommand({ TableName: TABLE_NAME, Key: { username } }));
   return Item;
 };
 
-export const registerUser = async (username, password) => {
+export const registerUser = async ({username, password}) => {
     const hashedPassword = await hashPassword(password);
 
 

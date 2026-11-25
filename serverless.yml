@@ -38,7 +38,13 @@ provider:
                 - ""
                 - - Fn::GetAtt: [CommentsTable, Arn]
                   - /index/*
-
+functions:
+  register:
+    handler: functions/auth/register/index.handler
+    events:
+      - httpApi:
+          path: /auth/register
+          method: post
 resources:
   Resources:
     UsersTable:
