@@ -15,3 +15,9 @@ export const registerSchema = z.object({
     .max(100, {error: 'Password must be at most 100 characters long'})
     .regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/, {error: 'Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character'})
 });
+
+// Login only checks that both exist.
+export const loginSchema = z.object({
+    username: z.string({error: 'Username is required'}).trim().min(1, 'Username is required'),
+    password: z.string({error: 'Password is required'}).trim().min(1, 'Password is required'),
+});
