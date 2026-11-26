@@ -1,7 +1,8 @@
 import {GetCommand, PutCommand} from "@aws-sdk/lib-dynamodb";
 import { db} from './db.mjs';
-import { hashPassword } from '../utils/bcrybt.mjs';
+import { hashPassword, comparePassword} from '../utils/bcrybt.mjs';
 import { HttpError } from '../responses/index.mjs';
+import { signToken } from '../utils/jwt.mjs';
 
 const TABLE_NAME = process.env.USERS_TABLE;
 
@@ -35,3 +36,13 @@ export const registerUser = async ({username, password}) => {
     return { username };
 };
 
+export const loginUser = async ({username, password}) => {
+    const user = await getUser(username);
+    // Same message whether the user doesn't exist or the password is wrong
+    if (!user || !(await comparePassword(password, user.password))) {
+        throw new HttpError(401, 'Invalid username or password');
+    }
+
+    const token = signToken({ username: user.username });
+    return { token, username: user.username};
+}
