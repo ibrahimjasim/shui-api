@@ -45,6 +45,14 @@ functions:
       - httpApi:
           path: /auth/register
           method: post
+
+  login:
+    handler: functions/auth/login/index.handler
+    events:
+      - httpApi:
+          path: /auth/login
+          method: post
+
 resources:
   Resources:
     UsersTable:
