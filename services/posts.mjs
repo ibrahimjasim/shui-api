@@ -1,8 +1,7 @@
 import {randomUUID} from 'node:crypto';
-import {GetCommand, Getcommand, PutCommand, QueryCommand, ScanCommand} from '@aws-sdk/lib-dynamodb';
+import { GetCommand, PutCommand, QueryCommand, ScanCommand } from '@aws-sdk/lib-dynamodb';
 import {db} from './db.mjs';
 import { HttpError } from '../responses/index.mjs';
-import { title } from 'node:process';
 
 
 const TABLE_NAME = process.env.POSTS_TABLE;
@@ -40,12 +39,12 @@ export const getPosts = async (username) => {
     const posts = [];
     let lastKey;
     do {
-        const {Items, LastEvaluatedKEy} = await db.send(
+        const {Items, LastEvaluatedKey} = await db.send(
             new ScanCommand({TableName: TABLE_NAME, ExclusiveStartKey: lastKey}),
 
         );
         posts.push(...(Items ?? []));
-        lastKey = LastEvaluatedKEy;
+        lastKey = LastEvaluatedKey;
     } while (lastKey);
 
     return posts.sort(newesFirst); 
@@ -61,7 +60,7 @@ export const createPost = async ({title, content}, user) => {
         isGuest: false,
         title,
         content,
-        createdAt,
+        createdAt: now,
         updatedAt: now,
     };
 

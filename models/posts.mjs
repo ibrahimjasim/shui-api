@@ -13,15 +13,15 @@ export const postSchema = z
     .string({error: 'Content is required'})
     .trim()
     .min(1, 'Content cannot be empty')
-    .max(100, 'Content can be at most 100 characters'),
+    .max(1000, 'Content can be at most 1000 characters'),
 
  })
 .strict();
 
 // Get posts?username -> only username
-export const postQuerySchema = z
+export const postsQuerySchema = z
  .object({
-    userName: z.string().trim().min(1, 'username cannot be empty').optional(),
+    username: z.string().trim().min(1, 'username cannot be empty').optional(),
 
  })
  .strict();

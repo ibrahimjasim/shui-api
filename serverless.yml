@@ -53,6 +53,27 @@ functions:
           path: /auth/login
           method: post
 
+  getPosts:
+    handler: functions/posts/getPosts/index.handler
+    events:
+      - httpApi:
+          path: /posts
+          method: get
+
+  getPost:
+    handler: functions/posts/getPost/index.handler
+    events:
+      - httpApi:
+          path: /posts/{postId}
+          method: get
+
+  createPost:
+    handler: functions/posts/createPost/index.handler
+    events:
+      - httpApi:
+          path: /posts
+          method: post
+
 resources:
   Resources:
     UsersTable:

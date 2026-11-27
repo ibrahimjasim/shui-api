@@ -7,7 +7,7 @@ import { sendResponse } from '../../../responses/index.mjs';
 
 
 const getAllPosts = async (event) => {
-    const posts = await getPosts(event.validateQuery.username);
+    const posts = await getPosts(event.validatedQuery.username);
     return sendResponse(200, posts);
 };
 
